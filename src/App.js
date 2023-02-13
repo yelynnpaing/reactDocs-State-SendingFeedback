@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './App.css'
+import { useState } from 'react';
 
-function App() {
+const App = () => {
+  const [text , setText] = useState('');
+  const [isSending , setIsSending] = useState(false);
+  const [isSent , setIsSent] = useState(false);
+
+  async function SendingFeedback(e) {
+    e.preventDefault()
+    setIsSending(true)
+    await sendingMessage()
+    setIsSending(false)
+    setIsSent(true)
+  }
+
+  if(isSent){
+    return <p>Thank's for your feedback</p>
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className='App-header'>
+      <form onSubmit={SendingFeedback}>
+        <h4>How was your stay at The Prancing Pony ?</h4>
+        <textarea 
+          disabled = {isSending}
+          value = {text}
+          onChange = {e => setText(e.target.value)}
         >
-          Learn React
-        </a>
-      </header>
+        </textarea> 
+        <br/>
+        <button 
+          type='submit'
+          disabled = {isSending}
+        >
+          Send
+        </button>
+        {isSending && <p>Sending .... </p>}
+      </form>
     </div>
-  );
+  )
 }
 
-export default App;
+//pretend
+function sendingMessage (text){
+  return new Promise (resolve => {
+    setTimeout (resolve, 2000);
+  });
+}
+
+export default App
