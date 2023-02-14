@@ -4,16 +4,25 @@ import { useState } from 'react';
 
 const App = () => {
   const [text , setText] = useState('');
+  
+  /* ---
   const [isSending , setIsSending] = useState(false);
   const [isSent , setIsSent] = useState(false);
+  -- */
+  const [status , setStatus] = useState('typing');
 
   async function SendingFeedback(e) {
     e.preventDefault()
-    setIsSending(true)
+    // setIsSending(true)
+    setStatus('sending')
     await sendingMessage()
-    setIsSending(false)
-    setIsSent(true)
+    // setIsSending(false)
+    // setIsSent(true)
+    setStatus('sent')
   }
+
+  const isSending = status === 'sending';
+  const isSent = status === 'sent';
 
   if(isSent){
     return <p>Thank's for your feedback</p>
